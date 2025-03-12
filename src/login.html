@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link href="../../action-bar/action.css" rel="stylesheet">
+	<link href="../../edit/css/edit.css" rel="stylesheet">
+	<link href="../../output/css/output.css" rel="stylesheet">
+	<link href="../../ux-core/css/app.css" rel="stylesheet">
+	<link href="../../ux-core/css/article.css" rel="stylesheet">
+	<link href="../css/login.css" rel="stylesheet">
+	<meta charset="utf-8">
+	<title>User login</title>
+</head>
+<body>
+<main>
+<!--BEGIN-->
+
+	<form
+		action="app://(@route)/authenticate"
+		data-action="login" data-class="{%name}" data-route="{@route}"
+		method="post" target="#notifications:prepend"
+	>
+		<header>
+			<h2>User login</h2>
+			<ul class="general actions">
+				<li class="login"><input type="submit" value="Login user"></li>
+				<!--actions-->
+				<li class="{action}">{{template}}</li>
+				<!--end-->
+			</ul>
+		</header>
+		<ul class="object properties">
+			<!--%properties.login-->
+			<li data-property="{name}">{edit}</li>
+			<!--end-->
+			<!--%properties.password-->
+			<li data-property="{name}">{edit}</li>
+			<!--end-->
+		</ul>
+	</form>
+
+<!--END-->
+</main>
+</body>
+</html>

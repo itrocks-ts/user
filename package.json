@@ -1,0 +1,71 @@
+{
+	"author": {
+		"name": "Baptiste Pillot",
+		"email": "baptiste@pillot.fr"
+	},
+	"dependencies": {
+		"@itrocks/account": "latest",
+		"@itrocks/action": "latest",
+		"@itrocks/action-bar": "latest",
+		"@itrocks/action-request": "latest",
+		"@itrocks/auto-redirect": "latest",
+		"@itrocks/class-view": "latest",
+		"@itrocks/data-to-object": "latest",
+		"@itrocks/edit": "latest",
+		"@itrocks/email-address": "latest",
+		"@itrocks/output": "latest",
+		"@itrocks/required": "latest",
+		"@itrocks/store": "latest",
+		"@itrocks/ux-core": "latest"
+	},
+	"description": "Business entity representing a user with a login form, authentication, and logout actions",
+	"devDependencies": {
+		"sass": "^1.83",
+		"typescript": "~5.6"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"exports": "./cjs/index.js",
+	"homepage": "https://it.rocks",
+	"files": [
+		"LICENSE",
+		"README.md",
+		"routes.json",
+		"cjs/*",
+		"css/*",
+		"!*.map"
+	],
+	"keywords": [
+		"access",
+		"auth",
+		"authenticate",
+		"authentication",
+		"backend",
+		"connect",
+		"control",
+		"disconnect",
+		"email",
+		"entity",
+		"identity",
+		"it.rocks",
+		"login",
+		"logout",
+		"model",
+		"password",
+		"security",
+		"user"
+	],
+	"license": "ISC",
+	"name": "@itrocks/user",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/itrocks-ts/user.git"
+	},
+	"scripts": {
+		"build": "tsc -p tsconfig.json && cp src/*.html cjs/ && npm run build:css",
+		"build:css": "sass --no-source-map src:css && cp src/*.svg css/"
+	},
+	"types": "./cjs/index.d.ts",
+	"version": "0.0.1"
+}
