@@ -5,18 +5,12 @@
 	},
 	"dependencies": {
 		"@itrocks/account": "latest",
-		"@itrocks/action": "latest",
-		"@itrocks/action-bar": "latest",
-		"@itrocks/action-request": "latest",
+		"@itrocks/action-pack": "latest",
 		"@itrocks/auto-redirect": "latest",
-		"@itrocks/class-view": "latest",
-		"@itrocks/data-to-object": "latest",
+		"@itrocks/business-pack": "latest",
 		"@itrocks/edit": "latest",
 		"@itrocks/email-address": "latest",
-		"@itrocks/output": "latest",
-		"@itrocks/required": "latest",
-		"@itrocks/store": "latest",
-		"@itrocks/ux-core": "latest"
+		"@itrocks/output": "latest"
 	},
 	"description": "Business entity representing a user with a login form, authentication, and logout actions",
 	"devDependencies": {
@@ -67,5 +61,5 @@
 		"build:css": "sass --no-source-map src:css && cp src/*.svg css/"
 	},
 	"types": "./cjs/index.d.ts",
-	"version": "0.0.2"
+	"version": "0.0.3"
 }
