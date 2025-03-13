@@ -14,6 +14,7 @@
 <main>
 <!--BEGIN-->
 
+	<!--#main-->
 	<form
 		action="app://(@route)/authenticate"
 		data-action="login" data-class="{%name}" data-route="{@route}"
@@ -23,7 +24,7 @@
 			<h2>User login</h2>
 			<ul class="general actions">
 				<li class="login"><input type="submit" value="Login user"></li>
-				<!--actions-->
+				<!---.actions-->
 				<li class="{action}">{{template}}</li>
 				<!--end-->
 			</ul>
@@ -37,6 +38,7 @@
 			<!--end-->
 		</ul>
 	</form>
+	<!--#end-->
 
 <!--END-->
 </main>
