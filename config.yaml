@@ -1,0 +1,5 @@
+routes:
+  /user: './cjs/user'
+  /user/authenticate: './cjs/authenticate'
+  /user/login: './cjs/login'
+  /user/logout: './cjs/logout'

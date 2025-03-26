@@ -23,9 +23,9 @@
 	"exports": "./cjs/index.js",
 	"homepage": "https://it.rocks",
 	"files": [
+		"config.yaml",
 		"LICENSE",
 		"README.md",
-		"routes.json",
 		"cjs/*",
 		"css/*",
 		"!*.map"
@@ -63,5 +63,5 @@
 		"build:css": "sass --no-source-map src:css && cp src/*.svg css/"
 	},
 	"types": "./cjs/index.d.ts",
-	"version": "0.0.8"
+	"version": "0.0.9"
 }
