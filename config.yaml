@@ -1,3 +1,8 @@
+access:
+  free:
+    - /user/authenticate
+    - /user/login
+
 routes:
   /user: './cjs/user'
   /user/authenticate: './cjs/authenticate'
