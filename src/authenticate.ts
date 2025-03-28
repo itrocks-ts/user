@@ -24,7 +24,10 @@ export class Authenticate extends Action
 		const [templateFile, statusCode] = user
 			? ['/authenticated.html', 200]
 			: ['/authentication-error.html', 401]
-		return this.htmlTemplateResponse(user ?? search, request, __dirname + templateFile, statusCode)
+		if (user) {
+			Object.assign(search, request.request.data, user)
+		}
+		return this.htmlTemplateResponse(search, request, __dirname + templateFile, statusCode)
 	}
 
 }
