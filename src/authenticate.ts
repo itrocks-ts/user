@@ -15,10 +15,10 @@ export class Authenticate extends Action
 		const { login, password } = search
 		let user: User | undefined
 		if (search.login.includes('@')) {
-			user = (await dataSource().search(User, { active: true, email: login, password }))[0]
+			user = await dataSource().searchOne(User, { active: true, email: login, password })
 		}
 		if (!user) {
-			user = (await dataSource().search(User, { active: true, login, password }))[0]
+			user = await dataSource().searchOne(User, { active: true, login, password })
 		}
 		request.request.session.user = user
 		const [templateFile, statusCode] = user
