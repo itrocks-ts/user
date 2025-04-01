@@ -3,16 +3,17 @@ import { getActions } from '@itrocks/action'
 import { Request }    from '@itrocks/action-request'
 import { User }       from './user'
 
-export class Login extends Action
+export class Login<T extends User = User> extends Action<T>
 {
 
 	redirect = '/'
 
-	async html(request: Request<User>)
+	async html(request: Request<T>)
 	{
-		this.actions  = getActions(request.type, request.action)
-		this.redirect = (request.request.method === 'GET') ? request.request.path : '/'
-		return this.htmlTemplateResponse(new request.type, request, __dirname + '/login.html')
+		const userType = request.type
+		this.actions   = getActions(userType, request.action)
+		this.redirect  = (request.request.method === 'GET') ? request.request.path : '/'
+		return this.htmlTemplateResponse(new userType, request, __dirname + '/login.html')
 	}
 
 }

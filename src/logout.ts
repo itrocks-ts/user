@@ -3,10 +3,10 @@ import { Request } from '@itrocks/action-request'
 import { User }    from './user'
 import { Login }   from './login'
 
-export class Logout extends Action
+export class Logout<T extends User = User> extends Action<T>
 {
 
-	async html(request: Request<User>)
+	async html(request: Request<T>)
 	{
 		delete request.request.session.user
 		request.request.session.destroy()
