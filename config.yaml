@@ -3,6 +3,10 @@ access:
     - /user/authenticate
     - /user/login
 
+menu:
+  Administration:
+    /user: Users
+
 routes:
   /user: './cjs/user'
   /user/authenticate: './cjs/authenticate'
