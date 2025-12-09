@@ -14,8 +14,8 @@
 	},
 	"description": "Business entity representing a user with a login form, authentication, and logout actions",
 	"devDependencies": {
-		"sass": "^1.83",
-		"typescript": "~5.8"
+		"sass": "^1.95",
+		"typescript": "~5.9"
 	},
 	"engines": {
 		"node": ">=18"
@@ -63,5 +63,5 @@
 		"build:css": "sass --no-source-map src:css && cp src/*.svg css/"
 	},
 	"types": "./cjs/index.d.ts",
-	"version": "0.0.17"
+	"version": "0.0.18"
 }
