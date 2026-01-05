@@ -66,5 +66,5 @@
 		"build:css": "sass --no-source-map src:css && cp src/*.svg css/"
 	},
 	"types": "./cjs/index.d.ts",
-	"version": "0.0.19"
+	"version": "0.1.0"
 }
