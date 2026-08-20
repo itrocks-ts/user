@@ -10,7 +10,9 @@
 		"@itrocks/business-pack": "latest",
 		"@itrocks/edit": "latest",
 		"@itrocks/email-address": "latest",
-		"@itrocks/output": "latest"
+		"@itrocks/output": "latest",
+		"@itrocks/password": "latest",
+		"@itrocks/request-response": "latest"
 	},
 	"description": "Business entity representing a user with a login form, authentication, and logout actions",
 	"devDependencies": {
@@ -64,7 +66,9 @@
 	},
 	"scripts": {
 		"build": "tsc && node -e \"const fs=require('node:fs'),path=require('node:path');for(const file of fs.readdirSync('src'))if(file.endsWith('.html'))fs.copyFileSync(path.join('src',file),path.join('cjs',file))\" && npm run build:css",
-		"build:css": "sass --no-source-map src:css && node -e \"const fs=require('node:fs'),path=require('node:path');for(const file of fs.readdirSync('src'))if(file.endsWith('.svg'))fs.copyFileSync(path.join('src',file),path.join('css',file))\""
+		"build:css": "sass --no-source-map src:css && node -e \"const fs=require('node:fs'),path=require('node:path');for(const file of fs.readdirSync('src'))if(file.endsWith('.svg'))fs.copyFileSync(path.join('src',file),path.join('css',file))\"",
+		"prepack": "npm run build",
+		"test": "npm run build && node --test --test-isolation=none test/*.test.js"
 	},
-	"version": "0.3.0"
+	"version": "0.4.0"
 }
