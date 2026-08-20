@@ -12,7 +12,7 @@ const { createDataSource }          = require('@itrocks/storage')
 const users = []
 const legacyPassword = createHash('sha512').update('legacy password', 'utf8').digest('hex')
 
-function authenticationRequest(login, password)
+function authenticationRequest(login, password, redirect)
 {
 	const session = {
 		regenerated: false,
@@ -24,7 +24,7 @@ function authenticationRequest(login, password)
 	return {
 		action:  'authenticate',
 		request: {
-			data: { login, password },
+			data: { login, password, redirect },
 			session
 		},
 		type: User
@@ -34,11 +34,14 @@ function authenticationRequest(login, password)
 function authenticate()
 {
 	const action = new Authenticate()
-	action.htmlTemplateResponse = async (_data, _request, template, statusCode = 200, headers = {}) => ({
-		body: basename(template),
-		headers,
-		statusCode
-	})
+	action.htmlTemplateResponse = async (data, _request, template, statusCode = 200, headers = {}) => {
+		action.renderedData = data
+		return {
+			body: basename(template),
+			headers,
+			statusCode
+		}
+	}
 	return action
 }
 
@@ -66,12 +69,32 @@ describe('Authenticate', () => {
 	})
 
 	it('regenerates the session before storing the authenticated user', async () => {
+		const action   = authenticate()
 		const request  = authenticationRequest('alice@example.test', 'valid password')
-		const response = await authenticate().html(request)
+		const response = await action.html(request)
 
 		assert.equal(response.statusCode, 200)
 		assert.equal(request.request.session.regenerated, true)
 		assert.equal(request.request.session.user.login, 'alice')
+		assert.deepEqual(action.renderedData, { login: 'alice', redirect: '/' })
+	})
+
+	it('keeps safe internal redirects without exposing private credentials to the template', async () => {
+		const action   = authenticate()
+		const request  = authenticationRequest('alice', 'valid password', '/private?tab=account')
+		const response = await action.html(request)
+
+		assert.equal(response.statusCode, 200)
+		assert.deepEqual(action.renderedData, { login: 'alice', redirect: '/private?tab=account' })
+	})
+
+	it('rejects external redirect targets', async () => {
+		const action   = authenticate()
+		const request  = authenticationRequest('alice', 'valid password', '//example.test/private')
+		const response = await action.html(request)
+
+		assert.equal(response.statusCode, 200)
+		assert.deepEqual(action.renderedData, { login: 'alice', redirect: '/' })
 	})
 
 	it('authenticates a legacy SHA-512 password without rewriting it', async () => {

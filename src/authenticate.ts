@@ -17,6 +17,20 @@ const totalAttempts = new AttemptLimiter({
 	windowMs:    15 * 60 * 1000
 })
 
+function safeRedirect(value: unknown): string
+{
+	return (
+		(typeof value === 'string')
+		&& (value.length <= 2048)
+		&& value.startsWith('/')
+		&& !value.startsWith('//')
+		&& !value.startsWith('/\\')
+		&& !/[\u0000-\u001f\u007f]/.test(value)
+	)
+		? value
+		: '/'
+}
+
 export class Authenticate<T extends User = User> extends Action<T>
 {
 
@@ -46,7 +60,10 @@ export class Authenticate<T extends User = User> extends Action<T>
 		identifierAttempts.clear(login.toLocaleLowerCase('en-US'))
 		await request.request.session.regenerate?.()
 		request.request.session.user = user
-		return this.htmlTemplateResponse(user, request, __dirname + '/authenticated.html')
+		return this.htmlTemplateResponse({
+			login:    user.login,
+			redirect: safeRedirect(data.redirect)
+		}, request, __dirname + '/authenticated.html')
 	}
 
 	private authenticationError(request: Request<T>, statusCode = 401, retryAfter?: number)
