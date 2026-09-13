@@ -16,7 +16,12 @@ export class Login<T extends User = User> extends Action<T>
 		const userType    = request.type
 		this.actions      = getActions(userType, request.action)
 		this.redirect     = ((coreRequest.method === 'GET') && !DISABLE.includes(coreRequest.path)) ? coreRequest.path : '/'
-		return this.htmlTemplateResponse(new userType, request, __dirname + '/login.html')
+		return this.htmlTemplateResponse(new userType, request, this.templateFile('login'))
+	}
+
+	protected templateFile(name: string): string
+	{
+		return __dirname + '/' + name + '.html'
 	}
 
 }

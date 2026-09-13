@@ -4,6 +4,7 @@ const { basename }                  = require('node:path')
 const { before }                    = require('node:test')
 const { describe, it }              = require('node:test')
 const { Authenticate }              = require('../cjs/authenticate')
+const { Login }                     = require('../cjs/login')
 const { Logout }                    = require('../cjs/logout')
 const { User }                      = require('../cjs/user')
 const { hashPassword }              = require('@itrocks/password/transformers')
@@ -60,6 +61,26 @@ before(async () => {
 })
 
 describe('Authenticate', () => {
+	it('lets applications replace templates without replacing authentication logic', async () => {
+		class BrandedAuthenticate extends Authenticate
+		{
+			templateFile(name)
+			{
+				return '/application/' + name + '.html'
+			}
+		}
+		const action = new BrandedAuthenticate()
+		action.htmlTemplateResponse = async (_data, _request, template, statusCode = 200) => ({
+			statusCode,
+			template
+		})
+
+		assert.deepEqual(await action.html(authenticationRequest('unknown', 'wrong')), {
+			statusCode: 401,
+			template:   '/application/authentication-error.html'
+		})
+	})
+
 	it('returns the same response for an unknown account and a wrong password', async () => {
 		const unknown = await authenticate().html(authenticationRequest('unknown', 'wrong'))
 		const existing = await authenticate().html(authenticationRequest('alice', 'wrong'))
@@ -104,6 +125,27 @@ describe('Authenticate', () => {
 		assert.equal(response.statusCode, 200)
 		assert.equal(request.request.session.user.login, 'bob')
 		assert.equal(users.find(user => user.login === 'bob').password, legacyPassword)
+	})
+})
+
+describe('Login', () => {
+	it('lets applications replace the login template without replacing its action', async () => {
+		class BrandedLogin extends Login
+		{
+			templateFile(name)
+			{
+				return '/application/' + name + '.html'
+			}
+		}
+		const action = new BrandedLogin()
+		action.htmlTemplateResponse = async (_data, _request, template) => ({ template })
+
+		const response = await action.html({
+			action:  'login',
+			request: { method: 'GET', path: '/user/login' },
+			type:    User
+		})
+		assert.equal(response.template, '/application/login.html')
 	})
 })
 

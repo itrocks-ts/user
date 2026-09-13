@@ -63,16 +63,21 @@ export class Authenticate<T extends User = User> extends Action<T>
 		return this.htmlTemplateResponse({
 			login:    user.login,
 			redirect: safeRedirect(data.redirect)
-		}, request, __dirname + '/authenticated.html')
+		}, request, this.templateFile('authenticated'))
 	}
 
-	private authenticationError(request: Request<T>, statusCode = 401, retryAfter?: number)
+	protected authenticationError(request: Request<T>, statusCode = 401, retryAfter?: number)
 	{
 		const headers: Headers = {}
 		if (retryAfter) {
 			headers['Retry-After'] = retryAfter.toString()
 		}
-		return this.htmlTemplateResponse({}, request, __dirname + '/authentication-error.html', statusCode, headers)
+		return this.htmlTemplateResponse({}, request, this.templateFile('authentication-error'), statusCode, headers)
+	}
+
+	protected templateFile(name: string): string
+	{
+		return __dirname + '/' + name + '.html'
 	}
 
 }
