@@ -1,6 +1,5 @@
 import { Action }       from '@itrocks/action'
 import { Request }      from '@itrocks/action-request'
-import { Type }         from '@itrocks/class-type'
 import { verifyPassword } from '@itrocks/password/transformers'
 import { Headers }      from '@itrocks/request-response'
 import { dataSource }   from '@itrocks/storage'
@@ -47,7 +46,7 @@ export class Authenticate<T extends User = User> extends Action<T>
 			return this.authenticationError(request, 429, Math.max(attempt.retryAfterSeconds, total.retryAfterSeconds))
 		}
 
-		const userType: Type<User> = request.type
+		const userType = request.type
 		let user: User | undefined
 		if (login.includes('@')) {
 			user = await dataSource().searchOne(userType, { email: login })
